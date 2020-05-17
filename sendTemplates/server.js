@@ -12,54 +12,65 @@ const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-handlebars');
 var Queue = require('better-queue');
 var MongoClient = require('mongodb').MongoClient;
+var fs = require('fs');
+var util = require('util');
+
 
 
 // Const
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+console.log = function(d) { //
+  var date = new Date().toISOString();
+  log_file.write(date + " "+ util.format(d) + '\n');
+  // log_stdout.write(util.format(d) + '\n');
+};
 const log = console.log;
 
 /**Debut de la config */
 let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        // user: process.env.EMAIL || 'bootnetcrasher@gmail.com', // TODO: your gmail account 
-        user: 'bootnetcrasher@gmail.com', // TODO: your gmail account 
-        pass: '29121990marie' // TODO: your gmail password
-    }
+  /*service: 'gmail',
+  auth: {
+    // user: process.env.EMAIL || 'bootnetcrasher@gmail.com', // TODO: your gmail account 
+    user: 'bootnetcrasher@gmail.com', // TODO: your gmail account 
+    pass: '29121990marie' // TODO: your gmail password
+  }*/
+  host: 'mail.chapmaison.com'
 });
 
 transporter.use('compile', hbs({
-    viewEngine: 'express-handlebars',
-    viewPath: './views/'
+  viewEngine: 'express-handlebars',
+  viewPath: './views/'
 }));
 
 /**Fin de la config */
 
 // Envoi de mail
-var sendMail = function(element){
-  console.log("l'id de l'element est "+element.id);
+var sendMail = function (element) {
+  // console.log("l'id de l'element est " + element.id);
   let mailOptions = {
     from: 'bootnetcrasher@gmail.com',
-    // to: 'bootnetcrasher@gmail.com',
-    to: element.email,
-    subject: 'Nodemailer - Test',
+    to: 'bootnetcrasher@gmail.com',
+    // to: element.email,
+    subject: 'Trouver une maison avec ChapMaison',
     text: 'Wooohooo it works!!',
     template: 'index',
     context: {
-        name: 'Accime Esterling'
+      name: 'Accime Esterling'
     } // send extra values to template
   };
 
-  console.log("email est "+element.email);
-  /*transporter.sendMail(mailOptions, (err, data) => {
+  // console.log("email est "+element.email);
+  transporter.sendMail(mailOptions, (errorSend, data) => {
     
-    if (err) {
-      MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
+    if (errorSend) {
+      MongoClient.connect("mongodb://localhost:27017/mydb", function (errorConnect, client) {
         var db = client.db('mydb');
         var myquery = { id: element.id };
-        var newvalues = { $set: {statut: 0 } };
-        db.collection("Persons").updateOne(myquery, newvalues, function(err, res) {
-          if (err) throw err;
-          console.log("1 document updated");
+        var newvalues = { $set: {statut: -1 } };
+        db.collection("Users").updateOne(myquery, newvalues, function(error, res) {
+          if (error) throw error;
+          console.log("email non envoyé a "+element.email+" erreur : "+errorSend);
           client.close();
         });
       })
@@ -69,17 +80,16 @@ var sendMail = function(element){
         var db = client.db('mydb');
         var myquery = { id: element.id };
         var newvalues = { $set: {statut: 1 } };
-        db.collection("Persons").updateOne(myquery, newvalues, function(err, res) {
+        db.collection("Users").updateOne(myquery, newvalues, function(err, res) {
           if (err) throw err;
-          console.log("1 document updated");
+          console.log("email envoyé a "+element.email);
           client.close();
         });
       })
     }
       // return log('Email sent!!!');
-  });*/
-  // console.log("mail envoyé ");
-  // console.log("email "+element.email);
+  });
+  
 }
 
 var q = new Queue(function (input, cb) {
@@ -87,73 +97,23 @@ var q = new Queue(function (input, cb) {
   sendMail(input);
   cb(null, result);
 });
-/*q.push("bootnetcrasher@gmail.com", function (err, result) {
-    // console.log("execution de la tache");
-});
-q.push("bootnetcrasher@gmail.com", function (err, result) {
-    // console.log("execution de la tache");
-});*/
-
 
 MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
-
   if (err) throw err;
-
-  //Write databse Insert/Update/Query code here..
-  // console.log("nous sommes connecté à la base de données mangodb");
   var db = client.db('mydb');
-
-  /*for (var i = 0; i < 400000; i++) {
-    // console.log("test " + i);
-    db.collection('Persons', function (err, collection) {
-
-      collection.insertOne({ id: i, firstName: 'Steve', lastName: 'Jobs' });
-      // collection.insertOne({ id: 2, firstName: 'Bill', lastName: 'Gates' });
-      // collection.insertOne({ id: 3, firstName: 'James', lastName: 'Bond' });
-  
-  
-  
-      db.collection('Persons').count(function (err, count) {
-        if (err) throw err;
-  
-        console.log('Total Rows: ' + count);
-      });
-    });
-  }*/
-  /*db.collection("Persons").drop(function(err, delOK) {
-    if (err) throw err;
-    if (delOK) console.log("Collection deleted");
-    // db.close();
-  });*/
-  // var status = db.serverStatus();
-    // console.log(db); 
-  // db.close();
-  db.collection('UsersNew', function (err, collection) {
-    // collection.insertOne({ id: 1, firstName: 'Steve', lastName: 'Jobs', email: 'bsdhfds1@yopmail.com' });
-    // collection.insertOne({ id: 2, firstName: 'Bill', lastName: 'Gates', email: 'bsdhfds2f@yopmail.com'});
-    // collection.insertOne({ id: 3, firstName: 'James', lastName: 'Bond', email: 'bsdhfds3f@yopmail.com' });
-
-    /*db.collection('Persons').count(function (err, count) {
-      if (err) throw err;
-      console.log('Total Rows: ' + count);
-    });*/
-
+  db.collection('Users', function (err, collection) {
     // Fetch all results
-    collection.find().toArray(function(err, items) {
-      /*items.forEach(element => { 
-        // console.log(element.email); 
-        q.push(element, function (err, result) {
-          // console.log("execution de la tache");
-        });
-      }); */
-      //assert.equal(null, err);
-      // assert.equal(0, items.length);
-      // db.close();
-      // console.log("liste des elements ");
-      // console.log(items[0].firstName);
+    collection.find({'statut': 0}).limit(10).forEach(function(items) {
+      q.push(items, function (err, result) {
+        // console.log("execution de la tache");
+      });
+    }, function(err) {
+      // done or error
+      console.log("une erreur "+err);
     });
     client.close();
   });
 });
+
 
 console.log("!!!!!!!! Fin de l'instruction !!!!!!!!");
