@@ -64,7 +64,7 @@ var sendMail = function (element) {
   transporter.sendMail(mailOptions, (errorSend, data) => {
     
     if (errorSend) {
-      MongoClient.connect("mongodb://localhost:27017/mydb", function (errorConnect, client) {
+      /*MongoClient.connect("mongodb://localhost:27017/mydb", function (errorConnect, client) {
         var db = client.db('mydb');
         var myquery = { id: element.id };
         var newvalues = { $set: {statut: -1 } };
@@ -73,10 +73,11 @@ var sendMail = function (element) {
           console.log("email non envoyé a "+element.email+" erreur : "+errorSend);
           client.close();
         });
-      })
+      })*/
       // return log('Error occurs');
+      console.log("mail non envoyé");
     }else{
-      MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
+      /*MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
         var db = client.db('mydb');
         var myquery = { id: element.id };
         var newvalues = { $set: {statut: 1 } };
@@ -85,7 +86,8 @@ var sendMail = function (element) {
           console.log("email envoyé a "+element.email);
           client.close();
         });
-      })
+      })*/
+      console.log("mail envoyé");
     }
       // return log('Email sent!!!');
   });
@@ -98,7 +100,7 @@ var q = new Queue(function (input, cb) {
   cb(null, result);
 });
 
-MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
+/*MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
   if (err) throw err;
   var db = client.db('mydb');
   db.collection('Users', function (err, collection) {
@@ -113,6 +115,10 @@ MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
     });
     client.close();
   });
+});*/
+
+q.push(1, function (err, result) {
+  // console.log("execution de la tache");
 });
 
 
