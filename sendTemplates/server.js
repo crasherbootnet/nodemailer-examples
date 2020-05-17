@@ -12,20 +12,10 @@ const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-handlebars');
 var Queue = require('better-queue');
 var MongoClient = require('mongodb').MongoClient;
-var fs = require('fs');
-var util = require('util');
-
-
 
 // Const
-var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-var log_stdout = process.stdout;
-console.log = function(d) { //
-  var date = new Date().toISOString();
-  log_file.write(date + " "+ util.format(d) + '\n');
-  // log_stdout.write(util.format(d) + '\n');
-};
-const log = console.log;
+// create a file only file logger
+const log = require('simple-node-logger').createSimpleFileLogger('project.log');
 
 /**Debut de la config */
 let transporter = nodemailer.createTransport({
@@ -47,7 +37,6 @@ transporter.use('compile', hbs({
 
 // Envoi de mail
 var sendMail = function (element) {
-  // console.log("l'id de l'element est " + element.id);
   let mailOptions = {
     from: 'bootnetcrasher@gmail.com',
     to: 'bootnetcrasher@gmail.com',
@@ -60,7 +49,6 @@ var sendMail = function (element) {
     } // send extra values to template
   };
 
-  // console.log("email est "+element.email);
   transporter.sendMail(mailOptions, (errorSend, data) => {
     
     if (errorSend) {
@@ -75,7 +63,7 @@ var sendMail = function (element) {
         });
       })*/
       // return log('Error occurs');
-      console.log("mail non envoyé");
+      log.info("mail non envoyé");
     }else{
       /*MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
         var db = client.db('mydb');
@@ -87,7 +75,7 @@ var sendMail = function (element) {
           client.close();
         });
       })*/
-      console.log("mail envoyé");
+      log.info("mail  envoyé");
     }
       // return log('Email sent!!!');
   });
@@ -121,5 +109,4 @@ q.push(1, function (err, result) {
   // console.log("execution de la tache");
 });
 
-
-console.log("!!!!!!!! Fin de l'instruction !!!!!!!!");
+log.info("!!!!!!!! Fin de l'instruction !!!!!!!!");
