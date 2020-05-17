@@ -140,12 +140,12 @@ MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
 
     // Fetch all results
     collection.find().toArray(function(err, items) {
-      items.forEach(element => { 
+      /*items.forEach(element => { 
         // console.log(element.email); 
         q.push(element, function (err, result) {
           // console.log("execution de la tache");
         });
-      }); 
+      }); */
       //assert.equal(null, err);
       // assert.equal(0, items.length);
       // db.close();
