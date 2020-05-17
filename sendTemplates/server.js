@@ -38,10 +38,10 @@ transporter.use('compile', hbs({
 // Envoi de mail
 var sendMail = function (element) {
   let mailOptions = {
-    from: 'bootnetcrasher@gmail.com',
-    to: 'bootnetcrasher@gmail.com',
-    // to: element.email,
-    subject: 'Trouver une maison avec ChapMaison',
+    from: 'support@chapmaison.com',
+    // to: 'bootnetcrasher@gmail.com',
+    to: element.email,
+    subject: 'Recherche ta maison avec ChapMaison',
     text: 'Wooohooo it works!!',
     template: 'index',
     context: {
@@ -52,43 +52,38 @@ var sendMail = function (element) {
   transporter.sendMail(mailOptions, (errorSend, data) => {
     
     if (errorSend) {
-      /*MongoClient.connect("mongodb://localhost:27017/mydb", function (errorConnect, client) {
+      MongoClient.connect("mongodb://localhost:27017/mydb", function (errorConnect, client) {
         var db = client.db('mydb');
         var myquery = { id: element.id };
         var newvalues = { $set: {statut: -1 } };
         db.collection("Users").updateOne(myquery, newvalues, function(error, res) {
           if (error) throw error;
-          console.log("email non envoyé a "+element.email+" erreur : "+errorSend);
+          log.info("email non envoyé a "+element.email+" erreur : "+errorSend);
           client.close();
         });
-      })*/
-      // return log('Error occurs');
-      log.info("mail non envoyé");
+      });
     }else{
-      /*MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
+      MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
         var db = client.db('mydb');
         var myquery = { id: element.id };
         var newvalues = { $set: {statut: 1 } };
         db.collection("Users").updateOne(myquery, newvalues, function(err, res) {
           if (err) throw err;
-          console.log("email envoyé a "+element.email);
+          log.info("email envoyé a "+element.email);
           client.close();
         });
-      })*/
-      log.info("mail  envoyé");
+      })
+      
     }
-      // return log('Email sent!!!');
   });
-  
 }
 
 var q = new Queue(function (input, cb) {
-  // console.log(input);
   sendMail(input);
   cb(null, result);
 });
 
-/*MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
+MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
   if (err) throw err;
   var db = client.db('mydb');
   db.collection('Users', function (err, collection) {
@@ -103,10 +98,7 @@ var q = new Queue(function (input, cb) {
     });
     client.close();
   });
-});*/
-
-q.push(1, function (err, result) {
-  // console.log("execution de la tache");
 });
+
 
 log.info("!!!!!!!! Fin de l'instruction !!!!!!!!");
