@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +8,64 @@
     <title>Document</title>
 
     <style>
+        .remark {
+            color: #3d4852;
+            margin-top: 0px;
+            text-align: left
+        }
 
-        h1 { 
-            color: red;
+        .btn1 {
+            color: #fff !important;
+            background-color: #0069d9 !important;
+            border-color: #0062cc !important;
+            text-decoration: none !important;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+
+
+        .btn1:hover {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn1:hover {
+            color: #212529;
+            text-decoration: none;
         }
     </style>
 </head>
+
 <body>
-    <h1>Welcome</h1>
-    <h2>Welcome {{name}} to our App</h2>
-    <ul>
-        <li>About</li>
-        <li>Home</li>
-        <li>Contact</li>
-    </ul>
-    
+    <img src="http://chapmaison.com/themes/demo/assets/images/photo.png" style="width: 100%" alt="">
+    <h2 class="remark" style="text-align: center;">Trouver une maison avec ChapMaison</h2>
+    <p class="remark" style="text-align: center;font-size: 16px">
+        Finir les longs jours de recherche de maison .
+        Plus besoin d'attendre des jours, des mois pour avoir votre maison .
+        Avec ChapMaison trouvez vous une maison Chap Chap.
+    </p>
+    <div style="text-align: center;"><a href="http://chapmaison.com" class="btn1">Recherchez votre maison</a></div>
 </body>
+
 </html>
