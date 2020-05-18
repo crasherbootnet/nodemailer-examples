@@ -28,11 +28,11 @@ let transporter = nodemailer.createTransport({
   host: 'mail.chapmaison.com'
 });
 
-var view = __dirname+'/views/';
-log.info("le chemin de la view est "+ view);
+// var view = __dirname+'/views/';
+// log.info("le chemin de la view est "+ view);
 transporter.use('compile', hbs({
   viewEngine: 'express-handlebars',
-  viewPath: view
+  viewPath: "/home/chapmaison/public_html/nodemailer-examples/sendTemplates/views/"
 }));
 
 /**Fin de la config */
