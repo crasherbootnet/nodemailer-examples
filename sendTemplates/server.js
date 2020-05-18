@@ -88,7 +88,7 @@ MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
   var db = client.db('mydb');
   db.collection('Users', function (err, collection) {
     // Fetch all results
-    collection.find({'statut': 0}).limit(10).forEach(function(items) {
+    collection.find({'statut': 0}).limit(100).forEach(function(items) {
       q.push(items, function (err, result) {
         // console.log("execution de la tache");
       });
