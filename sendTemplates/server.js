@@ -15,7 +15,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 // Const
 // create a file only file logger
-const log = require('simple-node-logger').createSimpleFileLogger('project.log');
+const log = require('simple-node-logger').createSimpleFileLogger(__dirname+'/project.log');
 
 /**Debut de la config */
 let transporter = nodemailer.createTransport({
@@ -30,7 +30,7 @@ let transporter = nodemailer.createTransport({
 
 transporter.use('compile', hbs({
   viewEngine: 'express-handlebars',
-  viewPath: './views/'
+  viewPath: __dirname+'/views/'
 }));
 
 /**Fin de la config */
@@ -102,3 +102,6 @@ MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
 
 
 log.info("!!!!!!!! Fin de l'instruction !!!!!!!!");
+
+
+log.info("base dir ",__dirname);
