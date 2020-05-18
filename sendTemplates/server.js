@@ -28,9 +28,11 @@ let transporter = nodemailer.createTransport({
   host: 'mail.chapmaison.com'
 });
 
+var view = __dirname+'/views/';
+log.info("le chemin de la view est "+ view);
 transporter.use('compile', hbs({
   viewEngine: 'express-handlebars',
-  viewPath: __dirname+'/views/'
+  viewPath: view
 }));
 
 /**Fin de la config */
@@ -102,6 +104,3 @@ MongoClient.connect("mongodb://localhost:27017/mydb", function (err, client) {
 
 
 log.info("!!!!!!!! Fin de l'instruction !!!!!!!!");
-
-
-log.info("base dir ",__dirname);
