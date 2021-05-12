@@ -15,7 +15,7 @@
     "dotenv": "^6.2.0",
     "fs": "0.0.1-security",
     "mongodb": "^3.5.7",
-    "nodemailer": "5.1.1",
+    "nodemailer": "6.4.16",
     "nodemailer-handlebars": "^1.0.0",
     "queue": "^6.0.1",
     "simple-node-logger": "^18.12.24",
